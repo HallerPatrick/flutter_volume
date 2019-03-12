@@ -2,7 +2,7 @@ group 'com.example.fluttervolume'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.1.51'
+    ext.kotlin_version = '1.2.31'
     repositories {
         google()
         jcenter()

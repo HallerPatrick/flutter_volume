@@ -18,11 +18,24 @@ class FlutterVolumePlugin private constructor(private val _registrar: Registrar)
       return am.getStreamVolume(AudioManager.STREAM_MUSIC) / maxValue
     }
 
+  private val muteMode: Int
+    get() {
+      val am = _registrar.activeContext().getSystemService(Context.AUDIO_SERVICE) as AudioManager
+      return am.getRingerMode();
+    }
+
   override fun onMethodCall(call: MethodCall, result: Result) {
     when (call.method) {
+      "muteMode" -> result.success(muteMode)
       "volume" -> result.success(volume)
       "setMaxVolume" -> setMaxVolume()
-      "setVolume" -> setVolume(call.argument("volume"))
+      "setVolume" -> {
+        var vol:Double = 1.0
+        if( call.hasArgument("volume")){
+          vol = call.argument<Double>("volume")!!.toDouble()
+        }
+        setVolume(vol)
+      }
       "mute" -> setMinVolume()
     }
   }
